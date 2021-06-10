@@ -21,3 +21,5 @@ const isValidHex = (hex) => {
     const strippedHex = hex.replace('#', '');
     return strippedHex.length === 3 || strippedHex.length === 6;
 }
+
+// update
