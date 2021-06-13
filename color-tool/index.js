@@ -7,6 +7,10 @@ const alteredColor = document.getElementById('alteredColor');
 const alteredColorText = document.getElementById('alteredColorText');
 const slider = document.getElementById('slider');
 const sliderText = document.getElementById('sliderText');
+const lightenText = document.getElementById('lightenText');
+const darkenText = document.getElementById('darkenText');
+const toggleBtn = document.getElementById('toggleBtn');
+
 
 // keyup event handler user input on hex code
 hexInput.addEventListener('keyup', () => {
@@ -87,10 +91,33 @@ slider.addEventListener('input', () => {
     if(!isValidHex(hexInput.value)) return;
     sliderText.textContent = `${slider.value}%`;
 
+    const valueAddOn = 
+    toggleBtn.classList.contains('toggled') ? -slider.value : slider.value;
+
     // get altered hex 
-    const alteredHex = alterColor(hexInput.value, slider.value);
+    const alteredHex = alterColor(hexInput.value, valueAddOn);
 
     alteredColor.style.backgroundColor = alteredHex;
     alteredColorText.innerText = `Altered Color ${alteredHex}`;
 })
 
+// Create a event listener for user click on dark/light mode toggle
+toggleBtn.addEventListener('click', () => {
+    if(toggleBtn.classList.contains('toggled')) {
+        toggleBtn.classList.remove('toggled');
+        lightenText.classList.remove('unselected');
+        darkenText.classList.add('unselected');
+    } else {
+        toggleBtn.classList.add('toggled');
+        lightenText.classList.add('unselected');
+        darkenText.classList.remove('unselected');
+    }
+    reset();
+})
+
+const reset = () => {
+    slider.value = 0;
+    sliderText.innerText=`0%`;
+    alteredColor.style.backgroundColor= hexInput.value;
+    alteredColorText.innerText = `Altered Color ${hexInput.value}`;
+}
