@@ -3,6 +3,8 @@
 // Get a reference to DOM elements
 const hexInput = document.getElementById('hexInput');
 const inputColor = document.getElementById('inputColor');
+const alteredColor = document.getElementById('alteredColor');
+const alteredColorText = document.getElementById('alteredColorText');
 const slider = document.getElementById('slider');
 const sliderText = document.getElementById('sliderText');
 
@@ -59,12 +61,8 @@ const convertRgbToHex = (r, g, b) => {
 }
 // console.log(convertRgbToHex(0, 55, 55));
 
-// Create a event listener for the slider 
-slider.addEventListener('input', () => {
-    sliderText.textContent = `${slider.value}%`;
-})
 
-// Increase range between 0 - 255
+// keep range in between 0 - 255
 const increaseRange = (hex, amount) => {
     const newHex = hex + amount;
     if(newHex > 255) return 255;
@@ -84,7 +82,15 @@ const alterColor = (hex, percentage) => {
     return convertRgbToHex(newR, newG, newB);
 }
 
+// Create a event listener for the slider 
+slider.addEventListener('input', () => {
+    if(!isValidHex(hexInput.value)) return;
+    sliderText.textContent = `${slider.value}%`;
 
+    // get altered hex 
+    const alteredHex = alterColor(hexInput.value, slider.value);
 
+    alteredColor.style.backgroundColor = alteredHex;
+    alteredColorText.innerText = `Altered Color ${alteredHex}`;
+})
 
-alterColor("fff", 10)
